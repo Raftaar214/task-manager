@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="browser">
+        <main class="view active" id="manager-view">
+            <div class="dashboard-container">
+                <div class="topbar">
+                    <h1>Task Manager</h1>
+                    <div class="user-info">
+                        <span id="managerName"></span>
+                        <button class="btn-secondary logout-btn" id="logoutBtn">Log out</button>
+                    </div>
+                </div>
+
+                <div class="section-title">Employees</div>
+                <div class="panel">
+                    <form class="inline-form" id="addEmployeeForm">
+                        <div class="field-group" style="margin-bottom:0;">
+                            <div class="input-wrapper">
+                                <input type="text" id="empName" placeholder="Full name" required>
+                            </div>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <div class="input-wrapper">
+                                <input type="text" id="empUsername" placeholder="Username" required>
+                            </div>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <div class="input-wrapper">
+                                <input type="password" id="empPassword" placeholder="Password" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Add employee</button>
+                    </form>
+                    <div style="border-top: 1px solid var(--border); margin-top: 24px; padding-top: 24px;">
+                        <div style="color: #8b9a96; font-size: 13px; font-weight: 600; margin-bottom: 12px;">Manage existing employees</div>
+                        <div class="inline-form">
+                            <div class="field-group" style="margin-bottom:0;">
+                                <div class="input-wrapper">
+                                    <select id="manageEmployeeSelect">
+                                        <option value="" disabled selected>Select an employee</option>
+                                    </select>
+                                    <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-secondary" id="globalResetBtn" style="height: 52px; border-radius: 16px;">Reset Password</button>
+                            <button type="button" class="btn-secondary" id="globalRemoveBtn" style="height: 52px; border-radius: 16px; color:var(--pink); border-color:rgba(239,115,156,0.2)">Remove Employee</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">Assign a task</div>
+                <div class="panel">
+                    <form class="inline-form" id="assignTaskForm">
+                        <div class="field-group" style="margin-bottom:0;">
+                            <div class="input-wrapper">
+                                <select id="taskEmployee" required>
+                                </select>
+                                <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <div class="input-wrapper">
+                                <input type="text" id="taskTitle" placeholder="Task title" required>
+                            </div>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0; grid-column: span 2;">
+                            <div class="input-wrapper">
+                                <input type="text" id="taskDesc" placeholder="Description (optional)">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Assign</button>
+                    </form>
+                </div>
+
+                <div class="section-title" style="justify-content: space-between;">
+                    All Tasks Overview
+                    <div style="display: flex; gap: 16px;">
+                        <div class="input-wrapper" style="width: 180px; height: 40px; margin-top: 0; font-weight: normal;">
+                            <select id="taskFilterStatus">
+                                <option value="all">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="open">Open</option>
+                                <option value="completed">Completed</option>
+                                <option value="history">History</option>
+                            </select>
+                            <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                        <div class="input-wrapper" style="width: 200px; height: 40px; margin-top: 0; font-weight: normal;">
+                            <select id="taskFilterEmployee">
+                                <option value="all">All Employees</option>
+                            </select>
+                            <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" style="padding: 0; overflow: hidden;">
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Assignee</th>
+                                    <th>Status</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Last Updated</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="managerTasksTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/manager.js"></script>
+</body>
+</html>

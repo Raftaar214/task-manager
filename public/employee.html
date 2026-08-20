@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="browser">
+        <main class="view active" id="employee-view">
+            <div class="dashboard-container">
+                <div class="topbar">
+                    <h1>My Tasks</h1>
+                    <div class="user-info">
+                        <span id="empDashboardName"></span>
+                        <button class="btn-secondary logout-btn" id="logoutBtn">Log out</button>
+                    </div>
+                </div>
+
+                <div class="section-title" style="justify-content: space-between;">
+                    My Tasks
+                    <div class="input-wrapper" style="width: 180px; height: 40px; margin-top: 0; font-weight: normal;">
+                        <select id="taskFilterStatus">
+                            <option value="all">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="open">Open</option>
+                            <option value="completed">Completed</option>
+                            <option value="history">History</option>
+                        </select>
+                        <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="panel" style="padding: 0; overflow: hidden;">
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Task Title</th>
+                                    <th>Status</th>
+                                    <th>Description</th>
+                                    <th>Last Updated</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="empTasksTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/employee.js"></script>
+</body>
+</html>
