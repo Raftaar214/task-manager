@@ -39,54 +39,55 @@ const COOKIE_OPTS = {
 };
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body || {};
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username and password required' });
+  const { username, password, role } = req.body || {};
+  if (!username || !password || !role) {
+    return res.status(400).json({ error: 'Username, password, and role are required' });
   }
 
-  // Try manager first, then employee. Usernames are unique across both by convention.
-  const { data: manager } = await supabase
-    .from('managers')
-    .select('*')
-    .eq('username', username)
-    .maybeSingle();
+  if (role === 'manager') {
+    const { data: manager } = await supabase
+      .from('managers')
+      .select('*')
+      .eq('username', username)
+      .maybeSingle();
 
-  if (manager) {
-    const ok = await bcrypt.compare(password, manager.password_hash);
-    if (!ok) return res.status(401).json({ error: 'Invalid username or password' });
+    if (manager) {
+      const ok = await bcrypt.compare(password, manager.password_hash);
+      if (!ok) return res.status(401).json({ error: 'Invalid username or password' });
 
-    const sessionId = crypto.randomUUID();
-    setActiveSession(manager.id, sessionId);
+      const sessionId = crypto.randomUUID();
+      setActiveSession(manager.id, sessionId);
 
-    const token = jwt.sign(
-      { id: manager.id, role: 'manager', name: manager.name, sessionId },
-      process.env.JWT_SECRET,
-      { expiresIn: '8h' }
-    );
-    res.cookie('session', token, COOKIE_OPTS);
-    return res.json({ role: 'manager', name: manager.name });
-  }
+      const token = jwt.sign(
+        { id: manager.id, role: 'manager', name: manager.name, sessionId },
+        process.env.JWT_SECRET,
+        { expiresIn: '8h' }
+      );
+      res.cookie('session', token, COOKIE_OPTS);
+      return res.json({ role: 'manager', name: manager.name });
+    }
+  } else if (role === 'employee') {
+    const { data: employee } = await supabase
+      .from('employees')
+      .select('*')
+      .eq('username', username)
+      .maybeSingle();
 
-  const { data: employee } = await supabase
-    .from('employees')
-    .select('*')
-    .eq('username', username)
-    .maybeSingle();
+    if (employee) {
+      const ok = await bcrypt.compare(password, employee.password_hash);
+      if (!ok) return res.status(401).json({ error: 'Invalid username or password' });
 
-  if (employee) {
-    const ok = await bcrypt.compare(password, employee.password_hash);
-    if (!ok) return res.status(401).json({ error: 'Invalid username or password' });
+      const sessionId = crypto.randomUUID();
+      setActiveSession(employee.id, sessionId);
 
-    const sessionId = crypto.randomUUID();
-    setActiveSession(employee.id, sessionId);
-
-    const token = jwt.sign(
-      { id: employee.id, role: 'employee', name: employee.name, manager_id: employee.manager_id, sessionId },
-      process.env.JWT_SECRET,
-      { expiresIn: '8h' }
-    );
-    res.cookie('session', token, COOKIE_OPTS);
-    return res.json({ role: 'employee', name: employee.name });
+      const token = jwt.sign(
+        { id: employee.id, role: 'employee', name: employee.name, manager_id: employee.manager_id, sessionId },
+        process.env.JWT_SECRET,
+        { expiresIn: '8h' }
+      );
+      res.cookie('session', token, COOKIE_OPTS);
+      return res.json({ role: 'employee', name: employee.name });
+    }
   }
 
   return res.status(401).json({ error: 'Invalid username or password' });

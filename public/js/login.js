@@ -93,12 +93,13 @@ loginForm.addEventListener('submit', async (e) => {
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
+    const role = document.querySelector('input[name="role"]:checked').value;
 
     try {
         const res = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ username, password, role }),
         });
         const data = await res.json();
 
