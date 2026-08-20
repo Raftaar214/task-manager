@@ -67,9 +67,7 @@ Shubham.
   name → **Reset password** → type a new one → share it with them directly.
 - **Shubham forgot his own:** run this locally, where your `.env` (with the
   Supabase service key) lives:
-  ```bash
-  node updateManagerPassword.js shubham Shubham@1008
-  ```
+
   Works for any username, manager or employee — useful as a backup even for
   employees if you'd rather not do it through the browser.
 

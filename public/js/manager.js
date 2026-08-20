@@ -99,9 +99,10 @@ function renderTaskRow(t) {
       <div style="display:flex; justify-content: flex-end; gap: 8px;">
         <button class="btn-secondary btn-small" onclick="reviewTask('${t.id}', true)">Approve</button>
         <button class="btn-secondary btn-small" onclick="reviewTask('${t.id}', false)" style="color:var(--pink);border-color:rgba(239,115,156,0.2)">Send back</button>
+        <button class="btn-secondary btn-small" onclick="deleteTask('${t.id}')" style="color:var(--pink);border-color:rgba(239,115,156,0.2)">Delete</button>
       </div>
     `;
-  } else if (t.status === 'pending' || t.status === 'history') {
+  } else {
     actionHtml = `
       <div style="display:flex; justify-content: flex-end;">
         <button class="btn-secondary btn-small" onclick="deleteTask('${t.id}')" style="color:var(--pink);border-color:rgba(239,115,156,0.2)">Delete Task</button>
