@@ -189,6 +189,16 @@ body {
 
 .input-wrapper input::placeholder { color: #53625f; }
 
+/* Autofill fix */
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover, 
+.input-wrapper input:-webkit-autofill:focus, 
+.input-wrapper input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #07110f inset !important;
+    -webkit-text-fill-color: #e5efed !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 .error-msg {
     color: var(--pink);
     font-size: 12px;
